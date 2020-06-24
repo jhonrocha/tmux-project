@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
-# Using capture-pane on tmux, give a fzf prompt of recent commands,
-# allowing the user to copy the output of one.
-# fzf-tmux and xclip required for this script.
-# By Jaywalker, Luke and Jhon
-
+# List options to pen a new session, window, pane or horizontal pane by location
+# By Jhon
 launcher_cmd() {
   if [ "$2" = "quick" ]; then
     head -n 1
@@ -21,4 +18,16 @@ launcher=$1
 file=$2
 
 # Choose
-launcher_cmd "$launcher" "$quick_key" < $file | xargs printf 
+ launcher_cmd "$launcher" "$quick_key" < $file | { IFS=':' read -r action path
+  if [ $action = "session" ]; then
+    tmux_socket=$(echo $TMUX | cut -d',' -f1)
+    section_name=$(TMUX="" tmux -S "$tmux_socket" new-session -c "$path" -d -P)
+    tmux switch-client -t "$session_name"
+  elif [ $action = "window" ]; then
+    tmux new-window -c $path
+  elif [ $action = "pane" ] || [ $action = "vpane" ]; then
+    tmux split-window -v -c $path
+  elif [ $action = "hpane" ]; then
+    tmux split-window -h -c $path
+  fi
+}
