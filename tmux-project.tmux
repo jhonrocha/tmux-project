@@ -16,6 +16,6 @@ tmux_get() {
 
 key="$(tmux_get '@tp-key' 'p')"
 launcher="$(tmux_get '@tp-launcher' 'fzf-tmux')"
-file="$(tmux_get '@tp-config' '$XDG_CONFIG_HOME/tmux-project.config')"
+file="$(tmux_get '@tp-file' '$XDG_CONFIG_HOME/tmux-project.config')"
 
 tmux bind-key "$key" run -b "$CURRENT_DIR/tmux-project.sh \"$launcher\" \"$file\"";
