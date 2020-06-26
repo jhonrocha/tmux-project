@@ -18,16 +18,16 @@ launcher=$1
 file=$2
 
 # Choose
- launcher_cmd "$launcher" "$quick_key" < $file | { IFS=':' read -r action path
-  if [ $action = "session" ]; then
+launcher_cmd "$launcher" "$quick_key" < $file | { IFS=':' read -r action path
+  if [ "$action" = "session" ]; then
     tmux_socket=$(echo $TMUX | cut -d',' -f1)
     section_name=$(TMUX="" tmux -S "$tmux_socket" new-session -c "$path" -d -P)
     tmux switch-client -t "$session_name"
-  elif [ $action = "window" ]; then
+  elif [ "$action" = "window" ]; then
     tmux new-window -c $path
-  elif [ $action = "pane" ] || [ $action = "vpane" ]; then
+  elif [ "$action" = "pane" ] || [ "$action" = "vpane" ]; then
     tmux split-window -v -c $path
-  elif [ $action = "hpane" ]; then
+  elif [ "$action" = "hpane" ]; then
     tmux split-window -h -c $path
   fi
 }

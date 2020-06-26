@@ -43,6 +43,14 @@ set -g @tp-file '~/.cache/tmux-project.config'
 ```
 
 ### The Config File
+The config file should store a list of: `action:FULL_PATH` where the actions 
+supported are:
+
+- session -> opens a new session on the path
+- window -> opens a new window on the path
+- pane -> opens a new horizontal pane on the path
+- hpane -> opens a new horizontal pane on the path
+- vpane -> opens a new vertical pane on the path
 
 ```
 session:/home/user/projec1
